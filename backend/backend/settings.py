@@ -35,7 +35,7 @@ SECRET_KEY = '=j_2-@msli!s%sp4rtcs3p-qv!v8+&80ql2he+=b(a&+3n8xri'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 

@@ -3,7 +3,8 @@ from django.shortcuts import render
 from  api.models import Item, Recipe
 # Create your views here.
 
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend,filters
+from rest_framework import filters
 from rest_framework import viewsets, serializers
 from rest_framework.decorators import detail_route
 
@@ -22,8 +23,9 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all().order_by('-id')
     serializer_class = ItemSerializer
 
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('data__name',)
+    filter_backends = (filters.SearchFilter,)
+
+    search_fields = ('name',)
     lookup_field = 'api_id'
 
 

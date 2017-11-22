@@ -1,8 +1,9 @@
-import AppBar from '../components/AppBar';
+// import AppBar from '../components/AppBar';
 import React, {Component} from 'react';
 import Input, {InputLabel} from 'material-ui/Input';
 import axios from 'axios';
 import {FormControl, FormHelperText} from 'material-ui/Form';
+import ItemCard from '../components/ItemCard'
 
 const styles = theme => ({
     container: {
@@ -21,7 +22,8 @@ const styles = theme => ({
 
 export default class Index extends (Component) {
     state = {
-        name: ''
+        name: '',
+        data: []
     }
 
     handleChange = (e) => {
@@ -31,12 +33,25 @@ export default class Index extends (Component) {
         })
     }
 
-    handleSubmit = (e) => {
-        console.log(e)
+    handleSubmit = () => {
+        axios.get('/api/items/', {
+            params: {
+                search: this.state.name
+            }
+        }).then(res => {
+            console.log(res)
+            this.setState({
+                data: res.data.results
+            })
+        })
     }
 
-    handleEnter = (e) => {
-        console.log(e)
+    handleEnter = (event) => {
+        if (event.charCode == 13) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.handleSubmit()
+        }
     }
 
     render() {
@@ -46,8 +61,21 @@ export default class Index extends (Component) {
                 <FormControl style={styles.formControl}>
                     <Input id="qword" value={this.state.name} onChange={this.handleChange} onSubmit={this.handleSubmit}
                            placeholder='Coming Soon'
+                           onKeyPress={this.handleEnter}
+
                     />
+
+
                 </FormControl>
+                <div>
+                    {
+                        this.state.data.map(item => {
+                            return (<ItemCard
+                                item={item.data}
+                            />)
+                        })
+                    }
+                </div>
             </div>
         )
     }
