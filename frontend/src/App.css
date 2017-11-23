@@ -11,7 +11,7 @@ html, body{
     height: 100%;
 }
 body {
-    background: #2196f3;
+    /*background: #2196f3;*/
     height: 100%;
 }
 
@@ -46,4 +46,36 @@ body {
     to {
         transform: rotate(360deg);
     }
+}
+
+.Junk {
+    color: #AAA !important;
+}
+
+.Basic {
+    color: #000 !important;
+}
+
+.Fine {
+    color: #62A4DA !important;
+}
+
+.Masterwork {
+    color: #1a9306 !important;
+}
+
+.Rare {
+    color: #fcd00b !important;
+}
+
+.Exotic {
+    color: #ffa405 !important;
+}
+
+.Ascended {
+    color: #fb3e8d !important;
+}
+
+.Legendary {
+    color: #4C139D !important;
 }

@@ -4,6 +4,7 @@ import Input, {InputLabel} from 'material-ui/Input';
 import axios from 'axios';
 import {FormControl, FormHelperText} from 'material-ui/Form';
 import ItemCard from '../components/ItemCard'
+import Button from 'material-ui/Button';
 
 const styles = theme => ({
     container: {
@@ -34,15 +35,11 @@ export default class Index extends (Component) {
     }
 
     handleSubmit = () => {
-        axios.get('/api/items/', {
-            params: {
-                search: this.state.name
+        this.props.history.push({
+            pathname:'/items',
+            state:{
+                qword:this.state.name
             }
-        }).then(res => {
-            console.log(res)
-            this.setState({
-                data: res.data.results
-            })
         })
     }
 
@@ -65,17 +62,7 @@ export default class Index extends (Component) {
 
                     />
 
-
                 </FormControl>
-                <div>
-                    {
-                        this.state.data.map(item => {
-                            return (<ItemCard
-                                item={item.data}
-                            />)
-                        })
-                    }
-                </div>
             </div>
         )
     }
