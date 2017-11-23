@@ -73,7 +73,7 @@ export default class Recipe extends (React.Component ) {
     constructor(props) {
         super(props)
         this.state = {
-            recipe_url: this.props.recipe_url.split('8000')[1],
+            recipe_url: this.props.recipe_url,
             data: false
         }
     }

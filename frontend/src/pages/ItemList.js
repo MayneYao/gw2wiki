@@ -24,7 +24,7 @@ export default class Index extends (Component) {
     }
 
     getData = (url) => {
-        let _url = url ? url.split("8000")[1] : this.state.url
+        let _url = url ? url: this.state.url
         let qword = url ? this.state.qword : false
         console.log(_url)
         let params = qword ? {} : {search: this.state.qword}
