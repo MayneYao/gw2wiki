@@ -28,6 +28,18 @@ class ItemViewSet(viewsets.ModelViewSet):
     search_fields = ('name',)
     lookup_field = 'api_id'
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        ids = self.request.query_params.get('ids', None)
+        if ids:
+            ids = [int(i) for i in ids.split(",")]
+            return Item.objects.filter(api_id__in=ids).order_by('-id')
+        else:
+            return self.queryset
+
 
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

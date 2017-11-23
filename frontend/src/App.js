@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Index from './pages/Index';
 import ItemList from './pages/ItemList';
+import ItemInfo from './pages/ItemInfo';
+
 import {
     BrowserRouter as Router,
     Route,
@@ -14,9 +16,10 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <div>
+                <div className='container'>
                     <Route exact path="/" component={Index}/>
                     <Route path="/items" component={ItemList}/>
+                    <Route path="/item/:id" component={ItemInfo}/>
                 </div>
             </Router>
         );
