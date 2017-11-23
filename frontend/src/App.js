@@ -6,7 +6,7 @@ import ItemList from './pages/ItemList';
 import ItemInfo from './pages/ItemInfo';
 
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Route,
     Link,
 } from 'react-router-dom'
