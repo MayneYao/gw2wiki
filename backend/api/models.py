@@ -94,3 +94,28 @@ class Recipe(models.Model):
                 recipe_need_pull = recipe_need_pull[50:]
                 _logger.info('{}/{}'.format(recipe_had_pull, recipe_need_pull_all))
                 print('{}/{}'.format(recipe_had_pull, recipe_need_pull_all))
+
+    def pull_mystic_data(self):
+        local_mystic_recipe_ids = [recipe.data['id'] for recipe in Recipe.objects.all() if
+                                   str(recipe.data['id']).startswith('-')]
+        mystic_reciepe_data = requests.get('http://gw2profits.com/json/v3/forge/').json()
+        origin_mystic_recipe_ids = [i['id'] for i in mystic_reciepe_data]
+
+        recipe_need_pull_ids = [i for i in set(origin_mystic_recipe_ids).difference(set(local_mystic_recipe_ids))]
+
+        recipe_list = []
+        for r_data in mystic_reciepe_data:
+            if r_data['id'] in recipe_need_pull_ids:
+                print(r_data['id'])
+                try:
+                    output_item = Item.objects.get(api_id=r_data["output_item_id"])
+                    recipe_list.append(Recipe(api_id=int(r_data["id"]), output_item=output_item, data=r_data))
+                except Exception as e:
+                    print(e)
+                    _logger.error(e)
+                    recipe_list.append(Recipe(api_id=int(r_data["id"]), data=r_data))
+                    continue
+        try:
+            Recipe.objects.bulk_create(recipe_list)
+        except Exception as e:
+            _logger.error(e)
