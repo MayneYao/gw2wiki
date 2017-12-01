@@ -24,10 +24,10 @@ export default class Index extends (Component) {
     }
 
     getData = (url) => {
-        let _url = url ? url: this.state.url
+        let _url = url ? url : this.state.url
         let qword = url ? this.state.qword : false
         console.log(_url)
-        let params = qword ? {} : {search: this.state.qword}
+        let params = qword ? {} : {q: this.state.qword}
         axios.get(_url, {
             params: params
         }).then(res => {
@@ -57,7 +57,8 @@ export default class Index extends (Component) {
                     this.state.pull_done ?
                         <p>加载完毕</p>
                         :
-                        <Button dense onClick={(e) => this.getData(this.state.next)}>加载更多</Button>
+                        <Button raised dense onClick={(e) => this.getData(this.state.next)}
+                                style={{width: '100%'}}>加载更多</Button>
                 }
 
 

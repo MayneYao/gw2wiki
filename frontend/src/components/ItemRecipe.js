@@ -13,20 +13,10 @@ import classnames from 'classnames';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Collapse from 'material-ui/transitions/Collapse';
 import axios from 'axios';
-import List, { ListItem, ListItemText } from 'material-ui/List';
+import List, {ListItem, ListItemText} from 'material-ui/List';
+import Grid from 'material-ui/Grid';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
 
-// class ItemLine extends (React.Component) {
-//     constructor(props){
-//         super(props)
-//     }
-//     render() {
-//         return(
-//             <div>
-//                 <img src={this.props.data.icon} alt=""/><span>{this.props.data.name}</span>
-//             </div>
-//         )
-//     }
-// }
 
 class RecipeItem extends (React.Component) {
     constructor(props) {
@@ -41,7 +31,8 @@ class RecipeItem extends (React.Component) {
     componentWillMount() {
         axios.get(`api/items/${this.state.item_id}`).then(res => {
             this.setState({
-                data: res.data.data
+                data: res.data.data,
+                recipe: res.data.recipe
             })
         })
     }
@@ -51,13 +42,16 @@ class RecipeItem extends (React.Component) {
             <div>
                 {
                     this.state.data ?
-                        <div style={{display:'flex'}}
-                        >
-                            <img src={this.state.data.icon} style={{
-                                width:32,
-                                height:32
-                            }}
-                                 alt=""/> <span style={{ lineHeight: '32px'}}> {this.state.data.name} x {this.state.count}</span>
+                        <div>
+                            <Button>
+                                <img src={this.state.data.icon} style={{
+                                    width: 32,
+                                    height: 32
+                                }}
+                                     alt=""/> <span style={{lineHeight: '32px'}}
+                                                    className={this.state.data.rarity}> {this.state.data.name}
+                                x {this.state.count}</span>
+                            </Button>
                         </div>
                         :
                         <div/>
@@ -69,36 +63,82 @@ class RecipeItem extends (React.Component) {
 }
 
 
-export default class Recipe extends (React.Component ) {
+class Recipe extends (React.Component ) {
     constructor(props) {
         super(props)
+        console.log(props)
+        let deep = this.props.deep ? this.props.deep : 0
         this.state = {
-            recipe_url: this.props.recipe_url,
-            data: false
+            data: false,
+            deep: deep,
+            max_deep: 2
         }
     }
 
     componentWillMount() {
-        axios.get(this.state.recipe_url).then(res => {
-            console.log(res)
-                this.setState({
-                    data: res.data.data
-                })
+        axios.get(`/api/items/${this.props.item_id}`).then(res => {
+            let url = res.data.recipe
+            if (url.length > 0) {
+                axios.get(url[0]).then(res => {
+                        console.log(res)
+                        this.setState({
+                            data: res.data.data,
+                        })
+                    }
+                )
             }
+        })
+    }
+
+    render() {
+        let deep = this.state.deep + 1
+        return (
+            this.state.data ?
+                <Table>
+                    <TableBody>
+                        {
+                            this.state.data ?
+                                this.state.data.ingredients.map(item => {
+                                    return (
+                                        <TableRow>
+                                            <TableCell>
+                                                <RecipeItem item_id={item.item_id} count={item.count}/>
+                                            </TableCell>
+                                            <TableCell>
+                                                {
+                                                    this.state.deep < this.state.max_deep ?
+                                                        <Recipe item_id={item.item_id} deep={deep}/> :
+                                                        <div/>
+                                                }
+
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })
+                                :
+                                <div/>
+                        }
+                    </TableBody>
+                </Table>
+                :
+                <div/>
         )
+    }
+}
+
+export default class Recipes extends React.Component {
+    constructor(props) {
+        super(props)
+        console.log(props.location.item_id)
+    }
+
+    componentWillMount() {
     }
 
     render() {
         return (
-            <div>
-                {
-                    this.state.data ?
-                        this.state.data.ingredients.map(item => {
-                            return <RecipeItem item_id={item.item_id} count={item.count}/>
-                        })
-                        :
-                        <div/>
-                }
+            <div style={{border: '1px solid #eee'}}>
+                <Recipe item_id={this.props.location.item_id}/>
             </div>
         )
     }

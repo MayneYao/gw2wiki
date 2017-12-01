@@ -3,10 +3,11 @@ from django.shortcuts import render
 from  api.models import Item, Recipe
 # Create your views here.
 
-from django_filters.rest_framework import DjangoFilterBackend,filters
+from django_filters.rest_framework import DjangoFilterBackend, filters
 from rest_framework import filters
 from rest_framework import viewsets, serializers
 from rest_framework.decorators import detail_route
+from django.contrib.postgres.search import SearchVector
 
 
 def index(request):
@@ -16,7 +17,7 @@ def index(request):
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Item
-        fields = ('data','recipe')
+        fields = ('data', 'recipe')
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -33,12 +34,19 @@ class ItemViewSet(viewsets.ModelViewSet):
         This view should return a list of all the purchases
         for the currently authenticated user.
         """
+
+        qs = self.queryset.order_by('-id')
         ids = self.request.query_params.get('ids', None)
         if ids:
             ids = [int(i) for i in ids.split(",")]
-            return Item.objects.filter(api_id__in=ids).order_by('-id')
-        else:
-            return self.queryset
+            qs = qs.filter(api_id__in=ids).order_by('-id')
+
+        qword = self.request.query_params.get('q', None)
+        if qword:
+            qs = qs.filter(data__name_en__icontains=qword) | qs.filter(name__icontains=qword)
+            qs = qs.order_by("-id")
+
+        return qs
 
 
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):

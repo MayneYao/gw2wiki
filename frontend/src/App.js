@@ -4,6 +4,7 @@ import './App.css';
 import Index from './pages/Index';
 import ItemList from './pages/ItemList';
 import ItemInfo from './pages/ItemInfo';
+import Recipe from './components/ItemRecipe'
 
 import {
     HashRouter as Router,
@@ -20,6 +21,7 @@ class App extends Component {
                     <Route exact path="/" component={Index}/>
                     <Route path="/items" component={ItemList}/>
                     <Route path="/item/:id" component={ItemInfo}/>
+                    <Route path="/recipe" component={Recipe}/>
                 </div>
             </Router>
         );
