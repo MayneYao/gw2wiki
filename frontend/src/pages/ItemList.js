@@ -5,6 +5,7 @@ import axios from 'axios';
 import {FormControl, FormHelperText} from 'material-ui/Form';
 import ItemCard from '../components/ItemCard'
 import Button from 'material-ui/Button';
+import Grid from 'material-ui/Grid';
 
 export default class Index extends (Component) {
     constructor(props) {
@@ -13,10 +14,14 @@ export default class Index extends (Component) {
         this.state = {
             url: '/api/items',
             data: [],
-            qword: this.props.location.state ? this.props.location.state.qword : '',
+            qword: this.props.qword ? this.props.qword : '',
             next: false,
             pull_done: false,
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({qword: nextProps.qword});
     }
 
     componentWillMount() {
@@ -42,12 +47,12 @@ export default class Index extends (Component) {
 
     render() {
         return (
-            <div>
+            <Grid container style={{width: 414}}>
                 {
                     this.state.data.map(item => {
                         return (<ItemCard
                             item={item.data}
-                            history={this.props.history}
+                            // history={this.props.history}
                             recipe={item.recipe}
                         />)
                     })
@@ -55,14 +60,14 @@ export default class Index extends (Component) {
                 }
                 {
                     this.state.pull_done ?
-                        <p>加载完毕</p>
+                        <div>找不到更多了哦:D</div>
                         :
                         <Button raised dense onClick={(e) => this.getData(this.state.next)}
                                 style={{width: '100%'}}>加载更多</Button>
                 }
 
 
-            </div>
+            </Grid>
         )
     }
 }

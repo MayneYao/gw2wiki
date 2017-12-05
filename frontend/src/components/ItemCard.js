@@ -26,7 +26,7 @@ import {
 const styles = theme => ({
     card: {
         display: 'flex',
-        width: '414px',
+        // width: '414px',
     },
     details: {
         display: 'flex',
@@ -52,8 +52,8 @@ const styles = theme => ({
         flex: '1 1 auto',
     },
     item: {
-        padding: 16,
-        width: 300
+        // padding: 16,
+        // width: 300
     }
 });
 
@@ -75,7 +75,6 @@ const ItemAttr = (label, val) => {
 class MediaControlCard extends (React.Component) {
     constructor(props) {
         super(props)
-        console.log(props)
         this.state = {expanded: false}
     }
 
@@ -84,133 +83,106 @@ class MediaControlCard extends (React.Component) {
     }
 
     render() {
-        const {classes, theme, item, history, recipe} = this.props;
-        console.log(recipe)
+        const {classes, theme, item, recipe} = this.props;
         return (
-            <div>
+            <Grid item xs={12} sm={12} md={12}>
                 <Card className={classes.card}>
                     <div className={classes.details}>
-                        <CardContent className={item.rarity}>
-                            <Grid container spacing={24}>
-                                <Grid style={{width: '64px'}}>
-                                    <img src={item.icon} alt="" style={{width: '64px', height: '64px'}}/>
-                                </Grid>
-                                <Grid className={classes.item}>
-                                    <Typography type="subheading" className={item.rarity}>{item.name}</Typography>
-                                    <Typography type="body2" color="secondary" noWrap>
-                                        {item.description}
-                                    </Typography>
-                                </Grid>
+                        <Grid container>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <CardContent className={item.rarity}>
+                                    <Grid container>
+                                        <Grid item xs={3} sm={3} md={3}>
+                                            <img src={item.icon} alt="" style={{width: '64px', height: '64px'}}/>
+                                        </Grid>
+                                        <Grid item xs={9} sm={9} md={9}>
+                                            <Typography type="subheading"
+                                                        className={item.rarity}>{item.name}({item.name_en})</Typography>
+                                            <Typography type="body2" color="secondary">
+                                                {item.description}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
                             </Grid>
-                        </CardContent>
-                        <CardActions>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <CardActions>
 
-                            {
-                                recipe.length > 0 ?
-                                    <IconButton onClick={e => {
-                                        history.push({
-                                            pathname: 'recipe',
-                                            item_id: item.id
-                                        })
-                                    }}>
-                                        <ImportContactsIcon/>
+                                    {
+                                        recipe.length > 0 ?
+                                            <Link to={`/recipe/${item.id}`}>
+                                                <IconButton>
+                                                    <ImportContactsIcon/>
+                                                </IconButton>
+                                            </Link>
+                                            :
+                                            <div></div>
+
+                                    }
+                                    <div className={classes.flexGrow}/>
+                                    <IconButton
+                                        className={classnames(classes.expand, {
+                                            [classes.expandOpen]: this.state.expanded,
+                                        })}
+                                        onClick={this.handleExpandClick}
+                                        aria-expanded={this.state.expanded}
+                                        aria-label="Show more"
+                                    >
+                                        <ExpandMoreIcon/>
                                     </IconButton>
-                                    :
-                                    <div></div>
-
-                            }
-
-                            {/*<Button dense color="primary" onClick={e => {*/}
-                            {/*history.push({*/}
-                            {/*pathname: `/item/${item.id}`,*/}
-                            {/*data: item*/}
-                            {/*})*/}
-                            {/*}}>查看详情</Button>*/}
-                            <div className={classes.flexGrow}/>
-                            <IconButton
-                                className={classnames(classes.expand, {
-                                    [classes.expandOpen]: this.state.expanded,
-                                })}
-                                onClick={this.handleExpandClick}
-                                aria-expanded={this.state.expanded}
-                                aria-label="Show more"
-                            >
-                                <ExpandMoreIcon/>
-                            </IconButton>
-                        </CardActions>
-                        <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
-                            <CardContent>
-                                <List>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('描述', item.description)
-                                        }
-                                    </ListItem>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('类型', item.type)
-                                        }
-                                    </ListItem>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('聊天代码', item.chat_link)
-                                        }
-                                    </ListItem>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('出售价格', item.vendor_value)
-                                        }
-                                    </ListItem>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('游戏类型', item.game_types.map(gtype => {
-                                                return <Button>{gtype}</Button>
-                                            }))
-                                        }
-                                    </ListItem>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('标签', item.flags.map(flag => {
-                                                return <Button>{flag}</Button>
-                                            }))
-                                        }
-                                    </ListItem>
-                                    <ListItem>
-                                        {
-                                            ItemAttr('限制', item.restrictions.map(item => {
-                                                return <Button>{item}</Button>
-                                            }))
-                                        }
-                                    </ListItem>
-                                </List>
-                                {/*<div>*/}
-                                {/*{*/}
-                                {/*recipe.length > 0 ?*/}
-                                {/*<Typography type="subheading">合成配方</Typography>*/}
-                                {/*:*/}
-                                {/*<div/>*/}
-
-                                {/*}*/}
-                                {/*{*/}
-                                {/*recipe.map(url => {*/}
-                                {/*console.log(url)*/}
-                                {/*return <Recipe recipe_url={url}/>*/}
-                                {/*})*/}
-                                {/*}*/}
-
-
-                                {/*</div>*/}
-                            </CardContent>
-                        </Collapse>
+                                </CardActions>
+                                <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
+                                    <CardContent>
+                                        <List>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('描述', item.description)
+                                                }
+                                            </ListItem>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('类型', item.type)
+                                                }
+                                            </ListItem>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('聊天代码', item.chat_link)
+                                                }
+                                            </ListItem>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('出售价格', item.vendor_value)
+                                                }
+                                            </ListItem>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('游戏类型', item.game_types.map(gtype => {
+                                                        return <Button>{gtype}</Button>
+                                                    }))
+                                                }
+                                            </ListItem>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('标签', item.flags.map(flag => {
+                                                        return <Button>{flag}</Button>
+                                                    }))
+                                                }
+                                            </ListItem>
+                                            <ListItem>
+                                                {
+                                                    ItemAttr('限制', item.restrictions.map(item => {
+                                                        return <Button>{item}</Button>
+                                                    }))
+                                                }
+                                            </ListItem>
+                                        </List>
+                                    </CardContent>
+                                </Collapse>
+                            </Grid>
+                        </Grid>
                     </div>
-                    {/*<CardMedia*/}
-                    {/*className={classes.cover}*/}
-                    {/*image={item.icon}*/}
-                    {/*title={item.name}*/}
-                    {/*/>*/}
-
                 </Card>
-            </div>
+            </Grid>
         );
     }
 

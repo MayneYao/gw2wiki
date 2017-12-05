@@ -129,7 +129,7 @@ class Recipe extends (React.Component ) {
 export default class Recipes extends React.Component {
     constructor(props) {
         super(props)
-        console.log(props.location.item_id)
+        console.log(props.match.params.id)
     }
 
     componentWillMount() {
@@ -137,9 +137,13 @@ export default class Recipes extends React.Component {
 
     render() {
         return (
-            <div style={{border: '1px solid #eee'}}>
-                <Recipe item_id={this.props.location.item_id}/>
-            </div>
+            <Grid container justify='center' style={{paddingTop: 20}}>
+                <Grid item md={8}>
+                    <div style={{border: '1px solid #eee'}}>
+                        <Recipe item_id={this.props.match.params.id}/>
+                    </div>
+                </Grid>
+            </Grid>
         )
     }
 }

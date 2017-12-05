@@ -5,6 +5,8 @@ import axios from 'axios';
 import {FormControl, FormHelperText} from 'material-ui/Form';
 import ItemCard from '../components/ItemCard'
 import Button from 'material-ui/Button';
+import SearchTabs from '../pages/SearchTabs';
+import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
     container: {
@@ -14,6 +16,7 @@ const styles = theme => ({
         height: '100%'
     },
     formControl: {
+        width: '100%',
         margin: theme.spacing.unit,
     },
     searchbox: {
@@ -22,48 +25,30 @@ const styles = theme => ({
 });
 
 export default class Index extends (Component) {
-    state = {
-        name: '',
-        data: []
-    }
-
-    handleChange = (e) => {
-        console.log(e)
-        this.setState({
-            name: e.target.value
-        })
-    }
-
-    handleSubmit = () => {
-        this.props.history.push({
-            pathname:'/items',
-            state:{
-                qword:this.state.name
-            }
-        })
-    }
-
-    handleEnter = (event) => {
-        if (event.charCode == 13) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.handleSubmit()
+    constructor(props) {
+        super(props)
+        this.state = {
+            name: '',
+            qword: this.props.qword,
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({qword: nextProps.qword});
     }
 
     render() {
         return (
-            <div className={'container'}>
-                {/*<AppBar/>*/}
-                <FormControl style={styles.formControl}>
-                    <Input id="qword" value={this.state.name} onChange={this.handleChange} onSubmit={this.handleSubmit}
-                           placeholder='Coming Soon'
-                           onKeyPress={this.handleEnter}
-
-                    />
-
-                </FormControl>
-            </div>
+            <Grid container justify='center'>
+                <Grid item sm={12} xs={12} md={6}>
+                    {
+                        this.state.qword ?
+                            <SearchTabs qword={this.state.qword}/>
+                            :
+                            <div/>
+                    }
+                </Grid>
+            </Grid>
         )
     }
 }
