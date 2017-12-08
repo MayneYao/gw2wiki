@@ -1,0 +1,324 @@
+{
+  "boss1": {
+    "id": 1,
+    "name": "boss1",
+    "c_name": "斯瓦尼亚萨满",
+    "time": [
+      "0:15:00",
+      "2:15:00",
+      "4:15:00",
+      "6:15:00",
+      "8:15:00",
+      "10:15:00",
+      "12:15:00",
+      "14:15:00",
+      "16:15:00",
+      "18:15:00",
+      "20:15:00",
+      "22:15:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10067&extra=page%3D2",
+    "waypoint": {
+      "name": "文德里克的山庄传送点",
+      "coord": [
+        23152.1,
+        13214.3
+      ]
+    },
+    "level": "10"
+  },
+  "boss2": {
+    "id": 2,
+    "name": "boss2",
+    "c_name": "巨型丛林地虫",
+    "time": [
+      "1:15:00",
+      "3:15:00",
+      "5:15:00",
+      "7:15:00",
+      "9:15:00",
+      "11:15:00",
+      "13:15:00",
+      "15:15:00",
+      "17:15:00",
+      "19:15:00",
+      "21:15:00",
+      "23:15:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10030&extra=page%3D1",
+    "waypoint": {
+      "name": "暮光之根传送点",
+      "coord": [
+        9583.34,
+        16580.6
+      ]
+    },
+    "level": "15"
+  },
+  "boss3": {
+    "id": 3,
+    "name": "boss3",
+    "c_name": "暗影巨兽",
+    "time": [
+      "1:45:00",
+      "3:45:00",
+      "5:45:00",
+      "7:45:00",
+      "9:45:00",
+      "11:45:00",
+      "13:45:00",
+      "15:45:00",
+      "17:45:00",
+      "19:45:00",
+      "21:45:00",
+      "23:45:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10028&extra=page%3D2",
+    "waypoint": {
+      "name": "迷沼避难所传送点",
+      "coord": [
+        12191.4,
+        13952.3
+      ]
+    },
+    "level": "15"
+  },
+  "boss4": {
+    "id": 4,
+    "name": "boss4",
+    "c_name": "火焰元素",
+    "time": [
+      "0:45:00",
+      "2:45:00",
+      "4:45:00",
+      "6:45:00",
+      "8:45:00",
+      "10:45:00",
+      "12:45:00",
+      "14:45:00",
+      "16:45:00",
+      "18:45:00",
+      "20:45:00",
+      "22:45:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10029&extra=page%3D3",
+    "waypoint": {
+      "name": "幸存者营地传送点",
+      "coord": [
+        7809.93,
+        18081.8
+      ]
+    },
+    "level": "15"
+  },
+  "boss5": {
+    "id": 5,
+    "name": "boss5",
+    "c_name": "进化巨型丛林地虫",
+    "time": [
+      "1:00:00",
+      "5:00:00",
+      "9:00:00",
+      "12:00:00",
+      "16:00:00",
+      "20:30:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10292&extra=page%3D1",
+    "waypoint": {
+      "name": "峡口驻守站传送点",
+      "coord": [
+        16633.4,
+        17687.5
+      ]
+    },
+    "level": "37"
+  },
+  "boss6": {
+    "id": 6,
+    "name": "boss6",
+    "c_name": "莫迪尔沃尔格斯",
+    "time": [
+      "0:30:00",
+      "3:30:00",
+      "6:30:00",
+      "9:30:00",
+      "12:30:00",
+      "15:30:00",
+      "18:30:00",
+      "21:30:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10068&extra=page%3D2",
+    "waypoint": {
+      "name": "偶蹄传送点",
+      "coord": [
+        16041.3,
+        9790.83
+      ]
+    },
+    "level": "43"
+  },
+  "boss7": {
+    "id": 7,
+    "name": "boss7",
+    "c_name": "泰达·科文顿",
+    "time": [
+      "2:00:00",
+      "5:00:00",
+      "8:00:00",
+      "11:00:00",
+      "14:00:00",
+      "17:00:00",
+      "20:00:00",
+      "23:00:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10065&extra=page%3D2",
+    "waypoint": {
+      "name": "笑鸥传送点",
+      "coord": [
+        16147.9,
+        17388.2
+      ]
+    },
+    "level": "50"
+  },
+  "boss8": {
+    "id": 8,
+    "name": "boss8",
+    "c_name": "碎裂巨兽",
+    "time": [
+      "0:00:00",
+      "3:00:00",
+      "6:00:00",
+      "9:00:00",
+      "12:00:00",
+      "15:00:00",
+      "18:00:00",
+      "21:00:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10045&highlight=%E7%A2%8E%E8%A3%82",
+    "waypoint": {
+      "name": "灼热盆地传送点",
+      "coord": [
+        29823.4,
+        12884.3
+      ]
+    },
+    "level": "50"
+  },
+  "boss9": {
+    "id": 9,
+    "name": "boss9",
+    "c_name": "吞噬托",
+    "time": [
+      "0:00:00",
+      "4:00:00",
+      "8:00:00",
+      "11:00:00",
+      "15:00:00",
+      "19:30:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10307&extra=page%3D1",
+    "waypoint": {
+      "name": "破碎海岸传送点",
+      "coord": [
+        15879.6,
+        21976.6
+      ]
+    },
+    "level": "65"
+  },
+  "boss10": {
+    "id": 10,
+    "name": "boss10",
+    "c_name": "超能毁灭者",
+    "time": [
+      "2:30:00",
+      "5:30:00",
+      "8:30:00",
+      "11:30:00",
+      "14:30:00",
+      "17:30:00",
+      "20:30:00",
+      "23:30:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10197&extra=page%3D1",
+    "waypoint": {
+      "name": "漩涡传送点",
+      "coord": [
+        19219.3,
+        23131.1
+      ]
+    },
+    "level": "66"
+  },
+  "boss11": {
+    "id": 11,
+    "name": "boss11",
+    "c_name": "魔像马克II型",
+    "time": [
+      "1:00:00",
+      "4:00:00",
+      "7:00:00",
+      "10:00:00",
+      "13:00:00",
+      "16:00:00",
+      "19:00:00",
+      "22:00:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10070&extra=page%3D2",
+    "waypoint": {
+      "name": "旧锤据点传送点",
+      "coord": [
+        21149.5,
+        22916.4
+      ]
+    },
+    "level": "68"
+  },
+  "boss12": {
+    "id": 12,
+    "name": "boss12",
+    "c_name": "卓玛之爪",
+    "time": [
+      "1:30:00",
+      "4:30:00",
+      "7:30:00",
+      "10:30:00",
+      "13:30:00",
+      "16:30:00",
+      "19:30:00",
+      "22:30:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10208&extra=page%3D1",
+    "waypoint": {
+      "name": "地震传送点",
+      "coord": [
+        23529,
+        9500.75
+      ]
+    },
+    "level": "80"
+  },
+  "boss13": {
+    "id": 13,
+    "name": "boss13",
+    "c_name": "喀壳虫女王",
+    "time": [
+      "3:00:00",
+      "7:00:00",
+      "10:00:00",
+      "14:00:00",
+      "18:30:00",
+      "23:00:00"
+    ],
+    "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10290&extra=page%3D1",
+    "waypoint": {
+      "name": "喀壳营地传送点",
+      "coord": [
+        12837.9,
+        20382.5
+      ]
+    },
+    "level": "80"
+  }
+}

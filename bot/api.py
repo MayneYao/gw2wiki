@@ -1,7 +1,7 @@
 import requests
 import requests_cache
 import discord
-
+import json
 from  datetime import datetime
 
 # 每个method对应一条指令，返回关于指令的结果。
@@ -89,7 +89,6 @@ class Api():
                 """
             return (help_info, None)
 
-
     def item(self, item_id):
         """
         # todo 通过 中英文名称，聊天代码来检索
@@ -108,14 +107,11 @@ class Api():
         em.set_image(url=item['icon'])
         return (None, em)
 
-
     def recipe(self, arg):
         pass
 
-
     def meta(self):
         pass
-
 
     def daily(self, arg):
         """
@@ -149,6 +145,27 @@ class Api():
 
         return ('\n-------\n'.join(res), None)
 
-
     def rm_cache(self, arg):
         pass
+
+    def boss(self):
+        with open("data/data.json", 'r', encoding="utf-8") as f:
+            boss_data = json.load(f)
+            now = datetime.now()
+            cur_boss = []
+            year = now.year
+            month = now.month
+            day = now.day
+            for i in boss_data.keys():
+                for dtime in boss_data[i]["time"]:
+                    boss_time = dtime.split(":")
+                    hour = int(boss_time[0])
+                    minu = int(boss_time[1])
+                    sencond = int(boss_time[2])
+                    time_delta = (datetime(year, month, day, hour, minu,
+                                           sencond) - datetime.now()).total_seconds() // 60
+                    if 0 < time_delta < 30:
+                        cur_boss.append("距离{0}开始，还有{1}分钟".format(boss_data[i]["c_name"], time_delta))
+                    elif -15 < time_delta < 0:
+                        cur_boss.append("{0}已经刷新{1}分钟啦".format(boss_data[i]["c_name"], abs(time_delta)))
+            return "\n".join(cur_boss)
