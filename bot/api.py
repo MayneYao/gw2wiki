@@ -2,6 +2,8 @@ import requests
 import requests_cache
 import discord
 
+from  datetime import datetime
+
 # 每个method对应一条指令，返回关于指令的结果。
 # method name 即指令名
 
@@ -22,6 +24,20 @@ color_map = {
 class Api():
     def __init__(self, client):
         self.client = client
+
+    @staticmethod
+    def get_daily_qyt():
+        data_dict = {
+            0: "[ & BIgHAAA =][ & BEwDAAA =][ & BKYBAAA =] [ & BA8CAAA =][ & BNIEAAA =][ & BIMCAAA =]",
+            1: "[ & BKgCAAA =][ & BEgAAAA =][ & BGQCAAA =] [ & BIMBAAA =][ & BH8HAAA =][ & BBkAAAA =]",
+            2: "[ & BCEDAAA =][ & BLQDAAA =][ & BLQAAAA =] [ & BPEBAAA =][ & BH4HAAA =][ & BKYAAAA =]",
+            3: "[ & BO4CAAA =][ & BE8AAAA =][ & BF0GAAA =] [ & BOQBAAA =][ & BK8HAAA =][ & BIMAAAA =]",
+            4: "[ & BNMAAAA =][ & BHsBAAA =][ & BKgCAAA =] [ & BNUGAAA =][ & BJQHAAA =][ & BMwCAAA =]",
+            5: "[ & BNMCAAA =][ & BJIBAAA =][ & BF8BAAA =] [ & BFMCAAA =][ & BB8DAAA =][ & BH8HAAA =]",
+            6: "[ & BIYHAAA =][ & BO4CAAA =][ & BCECAAA =] [ & BIUCAAA =][ & BDoBAAA =][ & BC0AAAA =]",
+        }
+        today = datetime.today()
+        return "今日补给官传送点\n{}".format(data_dict.get(today.weekday()))
 
     @staticmethod
     def get_daily_by_type(daily, _type):
@@ -48,11 +64,39 @@ class Api():
         else:
             return False
 
-    def test(self, *args):
-        return ("test is ok", None)
+    def areyouok(self, *args):
+        """
+        if you are ok i will get you mi band
+        :param args:
+        :return:
+        """
+        return ("i'm ok,give me mi band", None)
+
+    def help(self, arg):
+        if arg:
+            try:
+                action = self.__getattribute__(*arg)
+                return (action.__doc__, None)
+            except:
+                return ("没有这个指令", None)
+
+        else:
+            help_info = """
+                help 帮助
+                areyouok 测试机器人是否正常
+                item 物品信息
+                daily 日常相关
+                """
+            return (help_info, None)
+
 
     def item(self, item_id):
+        """
         # todo 通过 中英文名称，聊天代码来检索
+        :param item_id:
+        :return: 物品信息
+        """
+
         url = "http://gw2.wiki/api/items/{}".format(*item_id)
         res = requests.get(url).json()
         item = res['data']
@@ -64,13 +108,24 @@ class Api():
         em.set_image(url=item['icon'])
         return (None, em)
 
+
     def recipe(self, arg):
         pass
+
 
     def meta(self):
         pass
 
+
     def daily(self, arg):
+        """
+        返回日常信息
+            pve 返回当天pve日常任务
+            pvp 返回当天pvp日常任务
+            wvw 返回当天wvw日常任务
+            fractals/碎层 返回当天迷雾碎层任务
+            契约团 返回当天补给官就近传送点
+        """
         # todo 缓存过期处理
         requests_cache.install_cache('.daily.cache')
         daily = requests.get("https://api.guildwars2.com/v2/achievements/daily").json()
@@ -81,7 +136,9 @@ class Api():
                                "pve": self.get_daily_by_type(daily, 'pve'),
                                "pvp": self.get_daily_by_type(daily, 'pvp'),
                                "wvw": self.get_daily_by_type(daily, 'wvw'),
+                               "碎层": self.get_daily_by_type(daily, 'fractals'),
                                "fractals": self.get_daily_by_type(daily, 'fractals'),
+                               "契约团": self.get_daily_qyt()
                            }.get(_type))
         else:
             pve = self.get_daily_by_type(daily, 'pve')
@@ -92,9 +149,6 @@ class Api():
 
         return ('\n-------\n'.join(res), None)
 
+
     def rm_cache(self, arg):
         pass
-
-
-
-    # todo 契约团

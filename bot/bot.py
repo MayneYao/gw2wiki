@@ -19,7 +19,10 @@ async def on_message(message):
     api = Api(client=client)
     if api.handle_msg(message):
         content, embed = api.handle_msg(message)
-        await client.send_message(message.channel, content=content, embed=embed)
+        if embed is None:
+            # 将embed消息为空的消息默认转换成embed
+            embed = discord.Embed(title="", description=content, colour=0x000000)
+        await client.send_message(message.channel, content=None, embed=embed)
 
 
 client.run(conf.token)
