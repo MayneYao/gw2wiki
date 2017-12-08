@@ -148,24 +148,29 @@ class Api():
     def rm_cache(self, arg):
         pass
 
-    def boss(self):
+    def boss(self, arg):
         with open("data/data.json", 'r', encoding="utf-8") as f:
             boss_data = json.load(f)
-            now = datetime.now()
-            cur_boss = []
-            year = now.year
-            month = now.month
-            day = now.day
-            for i in boss_data.keys():
-                for dtime in boss_data[i]["time"]:
-                    boss_time = dtime.split(":")
-                    hour = int(boss_time[0])
-                    minu = int(boss_time[1])
-                    sencond = int(boss_time[2])
-                    time_delta = (datetime(year, month, day, hour, minu,
-                                           sencond) - datetime.now()).total_seconds() // 60
-                    if 0 < time_delta < 30:
-                        cur_boss.append("距离{0}开始，还有{1}分钟".format(boss_data[i]["c_name"], time_delta))
-                    elif -15 < time_delta < 0:
-                        cur_boss.append("{0}已经刷新{1}分钟啦".format(boss_data[i]["c_name"], abs(time_delta)))
-            return "\n".join(cur_boss)
+            if arg:
+                pass
+            else:
+                now = datetime.now()
+                cur_boss = []
+                year = now.year
+                month = now.month
+                day = now.day
+                for name, boss_data in boss_data.items():
+                    for dtime in boss_data["time"]:
+                        boss_time = dtime.split(":")
+                        hour = int(boss_time[0])
+                        minu = int(boss_time[1])
+                        sencond = int(boss_time[2])
+                        time_delta = (datetime(year, month, day, hour, minu,
+                                               sencond) - datetime.now()).total_seconds() // 60
+                        time_delta = int(time_delta)
+
+                        if 0 < time_delta < 30:
+                            cur_boss.append("距离{0}开始，还有{1}分钟".format(boss_data["c_name"], time_delta))
+                        elif -15 < time_delta < 0:
+                            cur_boss.append("{0}已经刷新{1}分钟啦".format(boss_data["c_name"], abs(time_delta)))
+                return ("\n".join(cur_boss), None)
