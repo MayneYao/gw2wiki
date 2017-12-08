@@ -17,10 +17,9 @@ async def on_ready():
 @client.event
 async def on_message(message):
     api = Api(client=client)
-    res = api.handle_msg(message)
-    print(res)
-    return_msg = api.handle_msg(message)
-    await client.send_message(message.channel, embed=return_msg)
+    if api.handle_msg(message):
+        content, embed = api.handle_msg(message)
+        await client.send_message(message.channel, content=content, embed=embed)
 
 
 client.run(conf.token)

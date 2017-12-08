@@ -5,7 +5,7 @@ migrations
 data.db
 conf.ini
 uploads
-
+*.sqlite
 # C extensions
 *.so
 
