@@ -122,8 +122,10 @@ class Api():
             fractals/碎层 返回当天迷雾碎层任务
             契约团 返回当天补给官就近传送点
         """
-        # todo 缓存过期处理
-        requests_cache.install_cache('.daily.cache')
+        now = datetime.now()
+        end = datetime(now.year, now.month, now.day, 23, 59, 59)
+        expire_after = end - now
+        requests_cache.install_cache('.daily.cache', expire_after=expire_after)
         daily = requests.get("https://api.guildwars2.com/v2/achievements/daily").json()
         res = []
         if arg:
@@ -146,6 +148,13 @@ class Api():
         return ('\n-------\n'.join(res), None)
 
     def rm_cache(self, arg):
+        pass
+
+    def wiki(self, arg):
+        """
+        wiki xxx 返回wiki内关于xxx的词条
+
+        """
         pass
 
     def boss(self, arg):
