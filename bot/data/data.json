@@ -20,6 +20,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10067&extra=page%3D2",
     "waypoint": {
       "name": "文德里克的山庄传送点",
+      "chat_link": "",
       "coord": [
         23152.1,
         13214.3
@@ -48,6 +49,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10030&extra=page%3D1",
     "waypoint": {
       "name": "暮光之根传送点",
+      "chat_link": "",
       "coord": [
         9583.34,
         16580.6
@@ -76,6 +78,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10028&extra=page%3D2",
     "waypoint": {
       "name": "迷沼避难所传送点",
+      "char_link": "[&BPcAAAA=]",
       "coord": [
         12191.4,
         13952.3
@@ -104,6 +107,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10029&extra=page%3D3",
     "waypoint": {
       "name": "幸存者营地传送点",
+      "chat_link": "",
       "coord": [
         7809.93,
         18081.8
@@ -126,6 +130,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10292&extra=page%3D1",
     "waypoint": {
       "name": "峡口驻守站传送点",
+      "chat_link": "",
       "coord": [
         16633.4,
         17687.5
@@ -150,6 +155,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10068&extra=page%3D2",
     "waypoint": {
       "name": "偶蹄传送点",
+      "chat_link": "",
       "coord": [
         16041.3,
         9790.83
@@ -174,6 +180,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10065&extra=page%3D2",
     "waypoint": {
       "name": "笑鸥传送点",
+      "chat_link": "",
       "coord": [
         16147.9,
         17388.2
@@ -198,6 +205,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10045&highlight=%E7%A2%8E%E8%A3%82",
     "waypoint": {
       "name": "灼热盆地传送点",
+      "chat_link": "",
       "coord": [
         29823.4,
         12884.3
@@ -220,6 +228,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10307&extra=page%3D1",
     "waypoint": {
       "name": "破碎海岸传送点",
+      "chat_link": "",
       "coord": [
         15879.6,
         21976.6
@@ -244,6 +253,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10197&extra=page%3D1",
     "waypoint": {
       "name": "漩涡传送点",
+      "chat_link": "",
       "coord": [
         19219.3,
         23131.1
@@ -268,6 +278,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10070&extra=page%3D2",
     "waypoint": {
       "name": "旧锤据点传送点",
+      "chat_link": "",
       "coord": [
         21149.5,
         22916.4
@@ -292,6 +303,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10208&extra=page%3D1",
     "waypoint": {
       "name": "地震传送点",
+      "chat_link": "",
       "coord": [
         23529,
         9500.75
@@ -314,6 +326,7 @@
     "link_url": "http://bbs.gw2sns.com/forum.php?mod=viewthread&tid=10290&extra=page%3D1",
     "waypoint": {
       "name": "喀壳营地传送点",
+      "chat_link": "",
       "coord": [
         12837.9,
         20382.5

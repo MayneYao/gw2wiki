@@ -17,7 +17,6 @@ color_map = {
     'Exotic': 0xffa405,
     'Ascended': 0xfb3e8d,
     'Legendary': 0x4C139D
-
 }
 
 
@@ -67,12 +66,13 @@ class Api():
     def areyouok(self, *args):
         """
         if you are ok i will get you mi band
-        :param args:
-        :return:
         """
         return ("i'm ok,give me mi band", None)
 
     def help(self, arg):
+        """
+        返回关于机器人的指令
+        """
         if arg:
             try:
                 action = self.__getattribute__(*arg)
@@ -81,19 +81,20 @@ class Api():
                 return ("没有这个指令", None)
 
         else:
-            help_info = """
-                help 帮助
-                areyouok 测试机器人是否正常
-                item 物品信息
-                daily 日常相关
-                """
+            method_list = [func for func in dir(self) if callable(getattr(self, func)) and not func.startswith("__")]
+
+            docs = []
+
+            for method in method_list:
+                action = self.__getattribute__(method)
+                if action.__doc__:
+                    docs.append("{}:\n{}".format(action.__name__, action.__doc__))
+            help_info = "\n".join(docs)
             return (help_info, None)
 
     def item(self, item_id):
         """
-        # todo 通过 中英文名称，聊天代码来检索
-        :param item_id:
-        :return: 物品信息
+        返回物品信息
         """
 
         url = "http://gw2.wiki/api/items/{}".format(*item_id)
@@ -108,9 +109,15 @@ class Api():
         return (None, em)
 
     def recipe(self, arg):
+        """
+        返回关于物品的配方信息
+        """
         pass
 
     def meta(self):
+        """
+        返回当前主流meta build
+        """
         pass
 
     def daily(self, arg):
@@ -153,11 +160,13 @@ class Api():
     def wiki(self, arg):
         """
         wiki xxx 返回wiki内关于xxx的词条
-
         """
         pass
 
     def boss(self, arg):
+        """
+        返回当前时间段世界boss的刷新情况
+        """
         with open("data/data.json", 'r', encoding="utf-8") as f:
             boss_data = json.load(f)
             if arg:
@@ -165,6 +174,7 @@ class Api():
             else:
                 now = datetime.now()
                 cur_boss = []
+                pass_boss = []
                 year = now.year
                 month = now.month
                 day = now.day
@@ -179,7 +189,12 @@ class Api():
                         time_delta = int(time_delta)
 
                         if 0 < time_delta < 30:
-                            cur_boss.append("距离{0}开始，还有{1}分钟".format(boss_data["c_name"], time_delta))
+                            cur_boss.append("距离{0}开始，还有{1}分钟——{2}{3}".format(boss_data["c_name"], time_delta,
+                                                                             boss_data['waypoint']['name'],
+                                                                             boss_data['waypoint']['chat_link']))
                         elif -15 < time_delta < 0:
-                            cur_boss.append("{0}已经刷新{1}分钟啦".format(boss_data["c_name"], abs(time_delta)))
+                            pass_boss.append("{0}已经刷新{1}分钟啦——{2}{3}".format(boss_data["c_name"], abs(time_delta),
+                                                                            boss_data['waypoint']['name'],
+                                                                            boss_data['waypoint']['chat_link']))
+                cur_boss.extend(pass_boss)
                 return ("\n".join(cur_boss), None)
