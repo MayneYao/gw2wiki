@@ -28,13 +28,13 @@ class Api():
     @staticmethod
     def get_daily_qyt():
         data_dict = {
-            0: "[ & BIgHAAA =][ & BEwDAAA =][ & BKYBAAA =] [ & BA8CAAA =][ & BNIEAAA =][ & BIMCAAA =]",
-            1: "[ & BKgCAAA =][ & BEgAAAA =][ & BGQCAAA =] [ & BIMBAAA =][ & BH8HAAA =][ & BBkAAAA =]",
-            2: "[ & BCEDAAA =][ & BLQDAAA =][ & BLQAAAA =] [ & BPEBAAA =][ & BH4HAAA =][ & BKYAAAA =]",
-            3: "[ & BO4CAAA =][ & BE8AAAA =][ & BF0GAAA =] [ & BOQBAAA =][ & BK8HAAA =][ & BIMAAAA =]",
-            4: "[ & BNMAAAA =][ & BHsBAAA =][ & BKgCAAA =] [ & BNUGAAA =][ & BJQHAAA =][ & BMwCAAA =]",
-            5: "[ & BNMCAAA =][ & BJIBAAA =][ & BF8BAAA =] [ & BFMCAAA =][ & BB8DAAA =][ & BH8HAAA =]",
-            6: "[ & BIYHAAA =][ & BO4CAAA =][ & BCECAAA =] [ & BIUCAAA =][ & BDoBAAA =][ & BC0AAAA =]",
+            0: "[&BIgHAAA=][&BEwDAAA=][&BKYBAAA=] [&BA8CAAA=][&BNIEAAA=][&BIMCAAA=]",
+            1: "[&BKgCAAA=][&BEgAAAA=][&BGQCAAA=] [&BIMBAAA=][&BH8HAAA=][&BBkAAAA=]",
+            2: "[&BCEDAAA=][&BLQDAAA=][&BLQAAAA=] [&BPEBAAA=][&BH4HAAA=][&BKYAAAA=]",
+            3: "[&BO4CAAA=][&BE8AAAA=][&BF0GAAA=] [&BOQBAAA=][&BK8HAAA=][&BIMAAAA=]",
+            4: "[&BNMAAAA=][&BHsBAAA=][&BKgCAAA=] [&BNUGAAA=][&BJQHAAA=][&BMwCAAA=]",
+            5: "[&BNMCAAA=][&BJIBAAA=][&BF8BAAA=] [&BFMCAAA=][&BB8DAAA=][&BH8HAAA=]",
+            6: "[&BIYHAAA=][&BO4CAAA=][&BCECAAA=] [&BIUCAAA=][&BDoBAAA=][&BC0AAAA=]",
         }
         today = datetime.today()
         return "今日补给官传送点\n{}".format(data_dict.get(today.weekday()))
