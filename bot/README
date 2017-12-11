@@ -3,6 +3,9 @@
 
 # todo
 
-+ 配方搜索
++ recipe 配方搜索
 + meta
-+ wiki搜索
++ wiki wiki词条搜索
++ alias 自定义指令
++ trans
++ 构建翻译词库
