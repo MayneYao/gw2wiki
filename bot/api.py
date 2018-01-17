@@ -92,6 +92,18 @@ class Api():
             help_info = "\n".join(docs)
             return (help_info, None)
 
+
+    def update(self):
+        """
+        更新gw2.wiki数据
+        """
+        url = "http://gw2.wiki/update/"
+        res = requests.get(url).json()
+        if res['msg'] == "success":
+            return ("数据更新完毕", None)
+        else:
+            return ("数据更新失败", None)
+
     def item(self, item_id):
         """
         返回物品信息

@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
-from api import views
+from ..api import views
 
 router = routers.DefaultRouter()
 
@@ -25,6 +25,7 @@ router.register(r'recipes', views.RecipeViewSet)
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^update/$', views.update_wiki),
     url(r'^api/', include(router.urls)),
     url(r'^admin/', admin.site.urls),
 ]

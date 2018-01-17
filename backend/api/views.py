@@ -1,13 +1,28 @@
 from django.shortcuts import render
 
-from  api.models import Item, Recipe
+from .models import Item, Recipe
 # Create your views here.
-
+from django.http import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend, filters
 from rest_framework import filters
 from rest_framework import viewsets, serializers
 from rest_framework.decorators import detail_route
 from django.contrib.postgres.search import SearchVector
+import logging
+
+_logger = logging.getLogger(__name__)
+
+
+def update_wiki(request):
+    try:
+        Item().pull_data()
+        Recipe().pull_data()
+        Recipe().pull_mystic_data()
+
+        return JsonResponse({'msg':'success'})
+    except Exception as e:
+        _logger.error(e)
+        return JsonResponse({'msg': 'failed'})
 
 
 def index(request):
