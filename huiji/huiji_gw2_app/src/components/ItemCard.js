@@ -1,9 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { withStyles } from 'material-ui/styles'
-import Card, { CardActions, CardContent, CardMedia,CardHeader } from 'material-ui/Card'
-import Button from 'material-ui/Button'
-import Typography from 'material-ui/Typography'
+import Card, { CardHeader } from 'material-ui/Card'
 
 const styles = {
 	card: {
@@ -52,25 +50,25 @@ class ItemCard extends React.Component {
 						subheader={description}
 					/>
 					{/*<CardMedia*/}
-						{/*className={classes.media}*/}
-						{/*image={icon}*/}
-						{/*title={name}*/}
+					{/*className={classes.media}*/}
+					{/*image={icon}*/}
+					{/*title={name}*/}
 					{/*/>*/}
 					{/*<CardContent>*/}
-						{/*<Typography variant="headline" component="h2">*/}
-							{/*{name}*/}
-						{/*</Typography>*/}
-						{/*<Typography component="p">*/}
-							{/*{description}*/}
-						{/*</Typography>*/}
+					{/*<Typography variant="headline" component="h2">*/}
+					{/*{name}*/}
+					{/*</Typography>*/}
+					{/*<Typography component="p">*/}
+					{/*{description}*/}
+					{/*</Typography>*/}
 					{/*</CardContent>*/}
 					{/*<CardActions>*/}
-						{/*<Button size="small" color="primary">*/}
-							{/*Share*/}
-						{/*</Button>*/}
-						{/*<Button size="small" color="primary">*/}
-							{/*Learn More*/}
-						{/*</Button>*/}
+					{/*<Button size="small" color="primary">*/}
+					{/*Share*/}
+					{/*</Button>*/}
+					{/*<Button size="small" color="primary">*/}
+					{/*Learn More*/}
+					{/*</Button>*/}
 					{/*</CardActions>*/}
 				</Card>
 
