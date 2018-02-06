@@ -4,6 +4,7 @@ import Home from './components/Home'
 import './App.css'
 
 import Recipe from './components/Recipe'
+import ItemDetail from './components/Item/ItemDetail'
 
 class App extends PureComponent {
 
@@ -12,7 +13,8 @@ class App extends PureComponent {
 			<Router>
 				<div>
 					<Route exact path="/" component={Home}/>
-					<Route path="/recipe/:id" component={Recipe}/>
+					{/*<Route path="/recipe/:id" component={Recipe}/>*/}
+					<Route path="/item/:id" component={ItemDetail}/>
 				</div>
 			</Router>
 		)

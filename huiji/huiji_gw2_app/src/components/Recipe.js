@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from 'material-ui/Button'
 import axios from 'axios'
-import Grid from 'material-ui/Grid'
 import Table, { TableBody, TableCell, TableRow } from 'material-ui/Table'
+import { CircularProgress } from 'material-ui/Progress'
 
 class RecipeItem extends (React.Component) {
 	constructor (props) {
@@ -22,7 +22,7 @@ class RecipeItem extends (React.Component) {
 	}
 
 	render () {
-		const {data:{name,rarity,icon}} = this.state
+		const {data: {name, rarity, icon}} = this.state
 		const {item_id, count} = this.props
 		return (
 			<div>
@@ -46,13 +46,20 @@ class RecipeItem extends (React.Component) {
 
 }
 
-class Recipe extends (React.Component ) {
+export default class Recipe extends (React.Component ) {
+	handleChange = (deep) => {
+		this.setState(
+			deep
+		)
+	}
+
 	constructor (props) {
 		super(props)
 		console.log(props)
 		let deep = this.props.deep ? this.props.deep : 0
 		this.state = {
-			data: false,
+			data: {},
+			loading: true,
 			deep: deep,
 			max_deep: 2
 		}
@@ -63,26 +70,39 @@ class Recipe extends (React.Component ) {
 			let recipe_ids = res.data
 			if (recipe_ids.length > 0) {
 				let recipe_id = recipe_ids[0]
-				const recipe_url = `https://api.guildwars2.com/v2/recipes/23${recipe_id}`
+				const recipe_url = `https://api.guildwars2.com/v2/recipes/${recipe_id}`
 				axios.get(recipe_url).then(res => {
-					console.log(res)
+						console.log(res)
 						this.setState({
 							data: res.data,
+							loading: false
 						})
 					}
 				)
+			}else{
+				this.setState({
+					loading:false
+				})
 			}
 		})
 	}
 
 	render () {
 		let deep = this.state.deep + 1
-		console.log(this.state.data )
+		console.log(this.state.data)
 		return (
-			this.state.data ? <Table>
+			this.state.loading ? <CircularProgress/> : <div>
+				{/*<Select*/}
+				{/*value={this.state.deep}*/}
+				{/*onChange={this.handleChange}*/}
+				{/*>*/}
+				{/*<MenuItem value={1}>1级配方</MenuItem>*/}
+				{/*<MenuItem value={2}>2级配方</MenuItem>*/}
+				{/*</Select>*/}
+				<Table>
 					<TableBody>
 						{
-							this.state.data ? this.state.data.ingredients.map(item => {
+							this.state.data.ingredients ? this.state.data.ingredients.map(item => {
 									return (
 										<TableRow>
 											<TableCell>
@@ -102,26 +122,21 @@ class Recipe extends (React.Component ) {
 						}
 					</TableBody>
 				</Table>
-				: <div/>
+			</div>
 		)
 	}
 }
 
-export default class Recipes extends React.Component {
-	constructor (props) {
-		super(props)
-		console.log(props.match.params.id)
-	}
-
-	render () {
-		return (
-			<Grid container justify='center' style={{paddingTop: 20}}>
-				<Grid item md={8}>
-					<div style={{border: '1px solid #eee'}}>
-						<Recipe item_id={this.props.match.params.id}/>
-					</div>
-				</Grid>
-			</Grid>
-		)
-	}
-}
+// export default class Recipes extends React.Component {
+// 	render () {
+// 		return (
+// 			<Grid container justify='center' style={{paddingTop: 20}}>
+// 				<Grid item md={8}>
+// 					<div style={{border: '1px solid #eee'}}>
+// 						<Recipe item_id={this.props.match.params.id}/>
+// 					</div>
+// 				</Grid>
+// 			</Grid>
+// 		)
+// 	}
+// }

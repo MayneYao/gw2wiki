@@ -1,52 +1,48 @@
 import React from 'react'
-import axios from 'axios'
 import { withStyles } from 'material-ui/styles'
 import Card, { CardHeader } from 'material-ui/Card'
+import {withRouter} from "react-router-dom";
 
-const styles = {
-	card: {
-		maxWidth: 345,
-	},
-	media: {
-		height: 200,
-	},
-}
 
 class ItemCard extends React.Component {
-	constructor (props) {
-		super(props)
-		this.state = {
-			data: {},
-			loading: true
-		}
+	handleClick = (id)=>{
+		console.log(id)
+		this.props.history.push(`/item/${id}`);
 	}
+	// constructor (props) {
+	// 	super(props)
+	// 	this.state = {
+	// 		data: {},
+	// 		loading: true
+	// 	}
+	// }
 
-	componentDidMount () {
-		const {id} = this.props
-		axios.get(`https://api.guildwars2.com/v2/items/${id}?lang=zh`).then(res => {
-			this.setState({
-				data: res.data,
-				loading: false
-			})
-		})
-	}
+	// componentDidMount () {
+	// 	const {id} = this.props
+	// 	axios.get(`https://api.guildwars2.com/v2/items/${id}?lang=zh`).then(res => {
+	// 		this.setState({
+	// 			data: res.data,
+	// 			loading: false
+	// 		})
+	// 	})
+	// }
 
 	render () {
 		const {
-			data: {
-				name, icon, chat_link, description
-			}, loading
-		} = this.state
-		const {classes} = this.props
+			classes, data: {
+				name, icon, chat_link, description, rarity,id
+			}
+		} = this.props
 		return (
-			loading ? '' : <div>
-				<Card className={classes.card}>
+			<div>
+				<Card style={ {
+					maxWidth: '100%',
+				}} onClick={()=>this.handleClick(id)}>
 					<CardHeader
 						avatar={
-							<img src={icon} alt=""/>
+							<img src={icon} alt="" width={64} height={64}/>
 						}
-
-						title={name}
+						title={<span className={rarity}>{name}</span>}
 						subheader={description}
 					/>
 					{/*<CardMedia*/}
@@ -77,4 +73,4 @@ class ItemCard extends React.Component {
 	}
 }
 
-export default withStyles(styles)(ItemCard)
+export default withRouter(ItemCard)
