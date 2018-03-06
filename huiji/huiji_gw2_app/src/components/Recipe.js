@@ -63,6 +63,11 @@ class Recipe extends (React.Component ) {
 		)
 	}
 
+	itemJump = (item_id) => {
+		console.log(item_id)
+		this.props.history.push(`/item/${item_id}`)
+	}
+
 	constructor (props) {
 		super(props)
 		let deep = this.props.deep ? this.props.deep : 0
@@ -75,6 +80,7 @@ class Recipe extends (React.Component ) {
 	}
 
 	componentDidMount () {
+		const {item_id} = this.props
 		axios.get(`https://api.guildwars2.com/v2/recipes/search?output=${this.props.item_id}`).then(res => {
 			let recipe_ids = res.data
 			if (recipe_ids.length > 0) {
@@ -88,8 +94,17 @@ class Recipe extends (React.Component ) {
 					}
 				)
 			} else {
-				this.setState({
-					loading: false
+				axios.get(`http://gw2profits.com/json/v3?output_id=${item_id}`).then(res=>{
+					if (res.data.Error){
+						this.setState({
+							loading: false
+						})
+					}else{
+						this.setState({
+							data:res.data[0],
+							loading: false
+						})
+					}
 				})
 			}
 		})
@@ -113,7 +128,7 @@ class Recipe extends (React.Component ) {
 									return (
 										<TableRow>
 											<TableCell>
-												<RecipeItemW item_id={item.item_id} count={item.count}/>
+												<RecipeItemW item_id={item.item_id} count={item.count} onClick={()=>this.itemJump(item.item_id)}/>
 											</TableCell>
 											<TableCell>
 												{
