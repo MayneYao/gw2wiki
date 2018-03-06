@@ -6,26 +6,32 @@ import ItemCard from './ItemCard'
 import TextField from 'material-ui/TextField'
 import SearchIcon from 'material-ui-icons/Search'
 import { withRouter } from 'react-router-dom'
+import Loading from '../Loading'
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import Select from 'material-ui/Select';
+
 
 class ItemList extends React.Component {
 
-	getItems = (ids) => {
-		const qids = ids.join()
-		axios.get(`https://api.guildwars2.com/v2/items?ids=${qids}&lang=zh`).then(res => {
-			const {items, page} = this.state
+	getItems = (page) => {
+		const {items,pageSize} = this.state
+		axios.get(`https://gw2.huijiwiki.com/api/rest_v1/namespace/data?sort_by=-id&page=${page}&pagesize=${pageSize}`).then(res => {
 			this.setState({
-				items: items.concat(res.data),
-				cacheItems: items.concat(res.data),
+				items: items.concat(res.data._embedded),
+				cacheItems: items.concat(res.data._embedded),
 				loading: false,
-				page: page + 1
+				page: page + 1,
+				getMoreLoading:false,
 			})
 		})
 	}
 	getMore = () => {
-		const {page, ids, pageSize} = this.state
-		const nextPage = page + 1
-		const nextIds = ids.slice(page * pageSize, nextPage * pageSize)
-		this.getItems(nextIds)
+		this.setState({
+			getMoreLoading:true
+		})
+		const {page} = this.state
+		this.getItems(page)
 	}
 
 	handleClickOpen = () => {
@@ -36,33 +42,39 @@ class ItemList extends React.Component {
 		this.setState({open: false, qword: ''})
 	}
 	handleSearch = () => {
-		const {qword} = this.state
-		if (qword.length > 0) {
-			this.setState({
-				loading: true
-			})
-			axios.get(`https://gw2.huijiwiki.com/api/rest_v1/namespace/data?filter={"name":"${qword}"}`).then(res => {
-				const {_returned, _embedded} = res.data
-				if (_returned) {
-					const search_item_ids = _embedded.map(item => {
-						return item.id
-					})
-					if (search_item_ids.length === 1) {
-						const id = search_item_ids[0]
-						this.props.history.push(`/item/${id}`)
-					} else if (search_item_ids.length > 1) {
-						axios.get(`https://api.guildwars2.com/v2/items?ids=${search_item_ids.join()}&lang=zh`).then(res => {
-							this.setState({
-								items: res.data,
-								loading: false,
-								page: 1
-							})
-						})
-					}
-				}
-				this.setState({type: 'search', loading: false})
-			})
+		this.setState({
+			loading: true
+		})
+		const {qword,qrarity,qtype} = this.state
+
+		var english = /^[A-Za-z0-9 ]*$/;
+
+		let filterSet = `{"name":{"$regex":"${qword}"}`
+
+		if (english.test(qword)){
+			filterSet = `{"name_en":{"$regex":"${qword}"}`
 		}
+
+		if (qrarity){
+			filterSet = `${filterSet},"rarity":"${qrarity}"`
+		}
+		if (qtype){
+			filterSet = `${filterSet},"type":"${qtype}"`
+		}
+		filterSet = `${filterSet}}`
+
+		axios.get(`https://gw2.huijiwiki.com/api/rest_v1/namespace/data?filter=${filterSet}`).then(res => {
+			const {_returned, _embedded} = res.data
+			this.setState({type: 'search', loading: false,items:_embedded})
+		})
+	}
+
+	handleClearSearch = ()=>{
+		this.setState({
+			qword:'',
+			qrarity:null,
+			qtype:null
+		})
 
 	}
 	handleQwordChange = (e) => {
@@ -79,6 +91,18 @@ class ItemList extends React.Component {
 		})
 	}
 
+	handleTypeChange = (e)=>{
+		this.setState({
+			qtype: e.target.value
+		})
+	}
+
+	handleRarityChange = (e)=>{
+		this.setState({
+			qrarity: e.target.value
+		})
+	}
+
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -90,81 +114,107 @@ class ItemList extends React.Component {
 			pageSize: 10,
 			open: false,
 			qword: '',
-			type: 'list'
+			qtype: null,
+			qrarity: null,
+			type: 'list',
+			getMoreLoading: false
 		}
 	}
 
 	componentDidMount () {
 		const {page, pageSize, items} = this.state
-		axios.get(`https://api.guildwars2.com/v2/items`).then(res => {
-			this.setState({
-				ids: res.data.reverse(),
-			})
-			const new_item_ids = res.data.slice(0, 10)
-			return new_item_ids
-		}).then(new_item_ids => {
-			this.getItems(new_item_ids)
-		})
+		this.getItems(page)
 	}
 
 	render () {
-		const {items, loading, qword, type} = this.state
+		const {items, loading, qword, type, getMoreLoading} = this.state
+		const rarityMap = {
+			Junk:"垃圾",
+			Basic:"普通",
+			Fine:"优质",
+			Masterwork:"精制",
+			Rare:"稀有",
+			Exotic:"特异",
+			Ascended:"升华",
+			Legendary:"传奇"
+		}
+
+		const typeMap = {
+			Armor:"护甲",
+			Weapon:"武器",
+			Back:"背部物品",
+			Bag:"包裹",
+			Consumable:"消耗品",
+			Container:"盒子",
+			CraftingMaterial:"制作材料",
+			Gathering:"采集器",
+			Gizmo:"玩具",
+			MiniPet:"迷你宠物",
+			Tool:"拆解工具",
+			Trait:"特性指南",
+			Trinket:"饰品",
+			Trophy:"战利品",
+			UpgradeComponent:"升级组件",
+		}
 		return (
-			loading ? <CircularProgress/> : <div>
+			<div>
 				<TextField
 					id="search"
-					label="搜索"
 					type="search"
-					margin="normal"
 					value={qword}
 					onChange={this.handleQwordChange}
+					placeholder="关键字"
 				/>
+				<InputLabel htmlFor="raritySelect">品质</InputLabel>
+				<Select
+				  value={this.state.qrarity}
+				  onChange={this.handleRarityChange}
+				  input={<Input id="raritySelect" />}
+				  // MenuProps={MenuProps}
+				>
+				  {
+					  Object.entries(rarityMap).map(item=>{
+						  let [key,name] = item
+						  return <MenuItem key={key} value={key}>
+							  	{name}
+							</MenuItem>
+					  })
+				  }
+				</Select>
+
+				<InputLabel htmlFor="typeSelect">类型</InputLabel>
+				<Select
+				  value={this.state.qtype}
+				  onChange={this.handleTypeChange}
+				  input={<Input id="typeSelect"/>}
+				  // MenuProps={MenuProps}
+				>
+				  {
+					  Object.entries(typeMap).map(item=>{
+						  let [key,name] = item
+						  return <MenuItem key={key} value={key}>
+								{name}
+							</MenuItem>
+					  })
+				  }
+				</Select>
+
 				<Button onClick={this.handleSearch} color="primary"> <SearchIcon/> </Button>
+				<Button onClick={this.handleClearSearch} color="primary"> 重置搜索 </Button>
 				{
-					items.map(item => {
+					loading ? <Loading/> :items.map(item => {
 						return <div key={item.id}>
 							<ItemCard data={item}/>
 
 						</div>
 					})
-
 				}
 				<div style={{textAlign: 'center'}}>
 					{
-						type === 'list' ? <Button onClick={this.getMore} color="primary">更多</Button> : ''
+						type === 'list' ? getMoreLoading ? <Loading/> :
+							<Button onClick={this.getMore} color="primary">更多</Button> : ''
 					}
 				</div>
-
-				{/*<div>*/}
-				{/*<Dialog*/}
-				{/*open={this.state.open}*/}
-				{/*onClose={this.handleClose}*/}
-				{/*aria-labelledby="form-dialog-title"*/}
-				{/*>*/}
-				{/*<DialogTitle id="form-dialog-title">搜索</DialogTitle>*/}
-				{/*<DialogContent>*/}
-				{/*<TextField*/}
-				{/*autoFocus*/}
-				{/*margin="dense"*/}
-				{/*id="qword"*/}
-				{/*// label="搜索"*/}
-				{/*type="text"*/}
-				{/*fullWidth*/}
-				{/*value={qword}*/}
-				{/*onChange={this.handleQwordChange}*/}
-				{/*/>*/}
-				{/*</DialogContent>*/}
-				{/*<DialogActions>*/}
-				{/*<Button onClick={this.handleClose} color="primary">*/}
-				{/*取消*/}
-				{/*</Button>*/}
-				{/*<Button onClick={this.handleSearch} color="primary">*/}
-				{/*确认*/}
-				{/*</Button>*/}
-				{/*</DialogActions>*/}
-				{/*</Dialog>*/}
-				{/*</div>*/}
-
 			</div>
 		)
 	}

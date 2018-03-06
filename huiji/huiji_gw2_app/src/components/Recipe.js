@@ -3,8 +3,14 @@ import Button from 'material-ui/Button'
 import axios from 'axios'
 import Table, { TableBody, TableCell, TableRow } from 'material-ui/Table'
 import { CircularProgress } from 'material-ui/Progress'
+import { withRouter } from 'react-router-dom'
 
 class RecipeItem extends (React.Component) {
+	itemJump = (item_id) => {
+		console.log(item_id)
+		this.props.history.push(`/item/${item_id}`)
+	}
+
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -14,10 +20,12 @@ class RecipeItem extends (React.Component) {
 
 	componentDidMount () {
 		const {item_id} = this.props
-		axios.get(`https://api.guildwars2.com/v2/items/${item_id}?lang=zh`).then(res => {
-			this.setState({
-				data: res.data
-			})
+		axios.get(`https://gw2.huijiwiki.com/api/rest_v1/namespace/data?filter={"id":${item_id}}`).then(res => {
+			if (res.data._returned) {
+				this.setState({
+					data: res.data._embedded[0]
+				})
+			}
 		})
 	}
 
@@ -28,7 +36,7 @@ class RecipeItem extends (React.Component) {
 			<div>
 				{
 					this.state.data ? <div>
-							<Button>
+							<Button onClick={() => this.itemJump(item_id)}>
 								<img src={icon} style={{
 									width: 32,
 									height: 32
@@ -46,7 +54,9 @@ class RecipeItem extends (React.Component) {
 
 }
 
-export default class Recipe extends (React.Component ) {
+const RecipeItemW = withRouter(RecipeItem)
+
+class Recipe extends (React.Component ) {
 	handleChange = (deep) => {
 		this.setState(
 			deep
@@ -55,7 +65,6 @@ export default class Recipe extends (React.Component ) {
 
 	constructor (props) {
 		super(props)
-		console.log(props)
 		let deep = this.props.deep ? this.props.deep : 0
 		this.state = {
 			data: {},
@@ -72,16 +81,15 @@ export default class Recipe extends (React.Component ) {
 				let recipe_id = recipe_ids[0]
 				const recipe_url = `https://api.guildwars2.com/v2/recipes/${recipe_id}`
 				axios.get(recipe_url).then(res => {
-						console.log(res)
 						this.setState({
 							data: res.data,
 							loading: false
 						})
 					}
 				)
-			}else{
+			} else {
 				this.setState({
-					loading:false
+					loading: false
 				})
 			}
 		})
@@ -89,7 +97,6 @@ export default class Recipe extends (React.Component ) {
 
 	render () {
 		let deep = this.state.deep + 1
-		console.log(this.state.data)
 		return (
 			this.state.loading ? <CircularProgress/> : <div>
 				{/*<Select*/}
@@ -106,7 +113,7 @@ export default class Recipe extends (React.Component ) {
 									return (
 										<TableRow>
 											<TableCell>
-												<RecipeItem item_id={item.item_id} count={item.count}/>
+												<RecipeItemW item_id={item.item_id} count={item.count}/>
 											</TableCell>
 											<TableCell>
 												{
@@ -127,16 +134,4 @@ export default class Recipe extends (React.Component ) {
 	}
 }
 
-// export default class Recipes extends React.Component {
-// 	render () {
-// 		return (
-// 			<Grid container justify='center' style={{paddingTop: 20}}>
-// 				<Grid item md={8}>
-// 					<div style={{border: '1px solid #eee'}}>
-// 						<Recipe item_id={this.props.match.params.id}/>
-// 					</div>
-// 				</Grid>
-// 			</Grid>
-// 		)
-// 	}
-// }
+export default withRouter(Recipe)

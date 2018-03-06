@@ -82,11 +82,14 @@ class ItemDetail extends React.Component {
 
 	componentDidMount () {
 		const {id} = this.props.match.params
-		axios.get(`https://api.guildwars2.com/v2/items/${id}?lang=zh`).then(res => {
-			this.setState({
-				data: res.data,
-				loading: false
-			})
+
+		axios.get(`https://gw2.huijiwiki.com/api/rest_v1/namespace/data?filter={"id":${id}}`).then(res => {
+			if (res.data._returned) {
+				this.setState({
+					data: res.data._embedded[0],
+					loading: false
+				})
+			}
 		})
 	}
 
@@ -99,7 +102,7 @@ class ItemDetail extends React.Component {
 
 		const {classes} = this.props
 		return (
-			loading ? <div/> : <div>
+			loading ? <CircularProgress/> : <div>
 				<Card className={classes.card}>
 					<CardHeader
 						avatar={
@@ -108,27 +111,17 @@ class ItemDetail extends React.Component {
 						title={<span className={rarity}>{name}</span>}
 						subheader={description}
 					/>
-					{/*<CardMedia*/}
-					{/*className={classes.media}*/}
-					{/*image={icon}*/}
-					{/*title={name}*/}
-					{/*/>*/}
 					<CardContent>
 						<Typography component="div">
-							<h2>可以合成物品</h2>
+							<h3>物品详情</h3>
+							<b>聊天代码: </b> <span>{chat_link}</span>
+
+							<h3>可以合成物品</h3>
 							<ItemInputRecipe id={id}/>
-							<h2>合成配方</h2>
+							<h3>合成配方</h3>
 							<Recipe item_id={id}/>
 						</Typography>
 					</CardContent>
-					{/*<CardActions>*/}
-					{/*<Button size="small" color="primary">*/}
-					{/*Share*/}
-					{/*</Button>*/}
-					{/*<Button size="small" color="primary">*/}
-					{/*Learn More*/}
-					{/*</Button>*/}
-					{/*</CardActions>*/}
 				</Card>
 			</div>
 		)
