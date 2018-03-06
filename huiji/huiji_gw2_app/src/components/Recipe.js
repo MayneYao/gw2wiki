@@ -94,7 +94,7 @@ class Recipe extends (React.Component ) {
 					}
 				)
 			} else {
-				axios.get(`http://gw2profits.com/json/v3?output_id=${item_id}`).then(res=>{
+				axios.get(`https://gw2profits.com/json/v3?output_id=${item_id}`).then(res=>{
 					if (res.data.Error){
 						this.setState({
 							loading: false
