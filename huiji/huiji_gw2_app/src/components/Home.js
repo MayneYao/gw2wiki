@@ -7,6 +7,7 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
 import green from 'material-ui/colors/green'
 import ItemList from './Item/ItemList'
+import Timer from './Timer'
 
 function TabContainer (props) {
 	const {children, dir} = props
@@ -93,9 +94,8 @@ class FloatingActionButtonZoom extends React.Component {
 						textColor="primary"
 						fullWidth
 					>
-						<Tab label="物品"/>
-						<Tab label="技能"/>
-						{/*<Tab label="计时器" />*/}
+						<Tab label="物品查询"/>
+						<Tab label="计时器"/>
 					</Tabs>
 				</AppBar>
 				<SwipeableViews
@@ -106,7 +106,9 @@ class FloatingActionButtonZoom extends React.Component {
 					<TabContainer dir={theme.direction} style={{padding: 0}}>
 						<ItemList/>
 					</TabContainer>
-					<TabContainer dir={theme.direction}>"马上"就做好了，敬请期待</TabContainer>
+					<TabContainer dir={theme.direction}>
+						<Timer/>
+					</TabContainer>
 					{/*<TabContainer dir={theme.direction}>Item Three</TabContainer>*/}
 				</SwipeableViews>
 				{/*{fabs.map((fab, index) => (*/}

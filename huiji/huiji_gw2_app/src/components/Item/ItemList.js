@@ -73,9 +73,8 @@ class ItemList extends React.Component {
 		this.setState({
 			qword:'',
 			qrarity:null,
-			qtype:null
+			qtype:null,
 		})
-
 	}
 	handleQwordChange = (e) => {
 		console.log(e.target.value)
@@ -111,7 +110,7 @@ class ItemList extends React.Component {
 			ids: [],
 			loading: true,
 			page: 1,
-			pageSize: 10,
+			pageSize: 8,
 			open: false,
 			qword: '',
 			qtype: null,
